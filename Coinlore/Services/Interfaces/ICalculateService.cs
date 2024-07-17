@@ -10,6 +10,6 @@ namespace Dynamo_Coinlore.Services.Interfaces
 
         Task<string> GetPortfolioChangePercentage();
 
-        Task<StringBuilder> LivePortfolioChangePercentage(int minutesPeriod);
+        Task LivePortfolioChangePercentage(int minutesPeriod);
     }
 }

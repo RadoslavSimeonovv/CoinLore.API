@@ -11,7 +11,7 @@ namespace Dynamo_Coinlore.Services
         public async Task<IEnumerable<string>> ReadCoinsFile()
         {
             var path = Path.Combine(Environment.CurrentDirectory, @"coinlore.txt");
-            var fileLines = await File.ReadAllLinesAsync(path);
+            var fileLines = await File.ReadAllLinesAsync(path).ConfigureAwait(false);
 
             return fileLines;
         }
@@ -23,7 +23,7 @@ namespace Dynamo_Coinlore.Services
         /// <param name="log"></param>
         /// <returns></returns>
         public async Task WriteInLogFile(string path, string log)
-            => await File.AppendAllTextAsync(path, log);
+            => await File.AppendAllTextAsync(path, log).ConfigureAwait(false);
     }
 }
 

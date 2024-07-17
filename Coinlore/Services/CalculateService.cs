@@ -6,7 +6,7 @@ namespace Dynamo_Coinlore.Services
 {
     public class CalculateService(
         IFileService fileReader,
-        ICoinLoreClient coinLoreClient) 
+        ICoinLoreClient coinLoreClient)
         : ICalculateService
     {
         private readonly IFileService _fileReader = fileReader;
@@ -17,7 +17,7 @@ namespace Dynamo_Coinlore.Services
         /// </summary>
         /// <returns></returns>
         public async Task<decimal> GetInitialPortfolioValue()
-            => await CalculateInitialPortfolioValue();
+            => await CalculateInitialPortfolioValue().ConfigureAwait(false);
 
         /// <summary>
         /// Calculate coin change percentage
@@ -39,7 +39,7 @@ namespace Dynamo_Coinlore.Services
                     if (currentCoin != null)
                     {
                         var changePercentage = (Convert.ToDecimal(currentCoin.PriceUsd) - Convert.ToDecimal(initialCoin[2])) * 100 / Convert.ToDecimal(initialCoin[2]);
-                        await WriteInLogFile($"Calculated the {currentCoin.Symbol} coin change percentage betwen initial value {initialCoin[2]} and current value {currentCoin.PriceUsd} which is {Convert.ToInt32(changePercentage)}%\n");
+                        await WriteInLogFile($"Calculated the {currentCoin.Symbol} coin change percentage betwen initial value {initialCoin[2]} and current value {currentCoin.PriceUsd} which is {Convert.ToInt32(changePercentage)}%\n").ConfigureAwait(false);
                         coinChangePercentageList.Append($"Difference between intiial price {initialCoin[2]} and current price {currentCoin.PriceUsd} is {Convert.ToInt32(changePercentage)}%\n");
                     }
                 }
@@ -63,33 +63,35 @@ namespace Dynamo_Coinlore.Services
         /// </summary>
         /// <param name="minutesPeriod"></param>
         /// <returns></returns>
-        public async Task<StringBuilder> LivePortfolioChangePercentage(int minutesPeriod)
+        public async Task LivePortfolioChangePercentage(int minutesPeriod)
         {
-            while (true)
-            {
-                var timer = new PeriodicTimer(TimeSpan.FromSeconds(minutesPeriod));
+            var iteration = 1;
 
-                while (await timer.WaitForNextTickAsync())
-                {
-                    await CalculatePortfolioChangePercentage().ConfigureAwait(false);
-                }
+            var timer = new PeriodicTimer(TimeSpan.FromMinutes(minutesPeriod));
+
+            while (await timer.WaitForNextTickAsync())
+            {
+                if (iteration == 5) break;
+                await CalculatePortfolioChangePercentage().ConfigureAwait(false);
+                iteration++;
             }
+
         }
 
         private async Task<Tuple<decimal, decimal, decimal>> CalculatePortfolioChangePercentage()
         {
-            var initialPortfolioValue = await CalculateInitialPortfolioValue();
-            var currentPortfolioValue = await CalculateCurrentPortfolioValue();
+            var initialPortfolioValue = await CalculateInitialPortfolioValue().ConfigureAwait(false);
+            var currentPortfolioValue = await CalculateCurrentPortfolioValue().ConfigureAwait(false);
             var changePercentage = (Convert.ToDecimal(currentPortfolioValue) - Convert.ToDecimal(initialPortfolioValue)) * 100 / Convert.ToDecimal(initialPortfolioValue);
 
-            await WriteInLogFile($"Calculated the portfolio change percentage between initial value {initialPortfolioValue} and current portfolio value {currentPortfolioValue} which is {Convert.ToInt32(changePercentage)}%\n");
+            await WriteInLogFile($"Calculated the portfolio change percentage between initial value {initialPortfolioValue} and current portfolio value {currentPortfolioValue} which is {Convert.ToInt32(changePercentage)}%\n").ConfigureAwait(false);
             return new Tuple<decimal, decimal, decimal>(initialPortfolioValue, currentPortfolioValue, changePercentage);
         }
 
         private async Task<decimal> CalculateInitialPortfolioValue()
         {
             decimal initialPortfolioValue = 0;
-            var fileLines = await _fileReader.ReadCoinsFile();
+            var fileLines = await _fileReader.ReadCoinsFile().ConfigureAwait(false);
 
             foreach (var line in fileLines)
             {
@@ -97,7 +99,7 @@ namespace Dynamo_Coinlore.Services
                 initialPortfolioValue += Convert.ToDecimal(initialCoin[0]) * Convert.ToDecimal(initialCoin[2]);
             }
 
-            await WriteInLogFile($"Calculated initial portofolio value: {initialPortfolioValue}\n");
+            await WriteInLogFile($"Calculated initial portofolio value: {initialPortfolioValue}\n").ConfigureAwait(false);
             return initialPortfolioValue;
         }
 
@@ -105,8 +107,8 @@ namespace Dynamo_Coinlore.Services
         {
             decimal currentPortfolioValue = 0;
 
-            var coinsInfo = await _coinLoreClient.GetCoinsInfo();
-            var fileLines = await _fileReader.ReadCoinsFile();
+            var coinsInfo = await _coinLoreClient.GetCoinsInfo().ConfigureAwait(false);
+            var fileLines = await _fileReader.ReadCoinsFile().ConfigureAwait(false);
 
             if (coinsInfo != null)
             {
@@ -122,14 +124,14 @@ namespace Dynamo_Coinlore.Services
                 }
             }
 
-            await WriteInLogFile($"Calculated current portofolio value: {currentPortfolioValue}\n");
+            await WriteInLogFile($"Calculated current portofolio value: {currentPortfolioValue}\n").ConfigureAwait(false);
             return currentPortfolioValue;
         }
 
         private async Task WriteInLogFile(string logMessage)
         {
             var path = Path.Combine(Environment.CurrentDirectory, @"logs.txt");
-            await _fileReader.WriteInLogFile(path, logMessage);
+            await _fileReader.WriteInLogFile(path, logMessage).ConfigureAwait(false);
         }
     }
 }

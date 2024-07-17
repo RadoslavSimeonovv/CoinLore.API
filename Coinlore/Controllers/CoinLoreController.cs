@@ -16,7 +16,7 @@ namespace Dynamo_Coinlore.Controllers
         [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetInitialPortfolioValueAsync()
         {
-            var response = await _calculateService.GetInitialPortfolioValue();
+            var response = await _calculateService.GetInitialPortfolioValue().ConfigureAwait(false);
 
             return Ok(response);
         }
@@ -25,7 +25,7 @@ namespace Dynamo_Coinlore.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCoinPercentageChangeAsync()
         {
-            var response = await _calculateService.CalculateCoinChangePercentage();
+            var response = await _calculateService.CalculateCoinChangePercentage().ConfigureAwait(false);
 
             return Ok(response.ToString());
         }
@@ -34,18 +34,18 @@ namespace Dynamo_Coinlore.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPortfolioPercentageChangeAsync()
         {
-            var response = await _calculateService.GetPortfolioChangePercentage();
+            var response = await _calculateService.GetPortfolioChangePercentage().ConfigureAwait(false);
 
             return Ok(response);
         }
 
         [HttpPost("livePercentageChanges")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLivePercentageChanges([FromBody] LivePercentageChangeRequest request)
         {
-            var response = await _calculateService.LivePortfolioChangePercentage(request.Limit);
+            await _calculateService.LivePortfolioChangePercentage(request.Limit).ConfigureAwait(false);
 
-            return Ok(response.ToString());
+            return Ok();
         }
     }
 }

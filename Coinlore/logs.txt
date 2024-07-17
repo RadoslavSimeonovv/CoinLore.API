@@ -1,20 +1,12 @@
 Calculated initial portofolio value: 601640247.0680322
-Calculated the ETH coin change percentage betwen initial value 123.14 and current value 3460.20 which is 2710%
-Calculated the BTC coin change percentage betwen initial value 24012.43 and current value 65049.25 which is 171%
-Calculated the SHIB coin change percentage betwen initial value 60 and current value 0.000019 which is -100%
-Calculated the USDT coin change percentage betwen initial value 1123.23 and current value 1.00 which is -100%
+Calculated current portofolio value: 820305.9335666
+Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 820305.9335666 which is -100%
 Calculated initial portofolio value: 601640247.0680322
-Calculated current portofolio value: 824684.2335950
-Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 824684.2335950 which is -100%
+Calculated current portofolio value: 820305.9335666
+Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 820305.9335666 which is -100%
 Calculated initial portofolio value: 601640247.0680322
-Calculated current portofolio value: 824684.2335950
-Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 824684.2335950 which is -100%
+Calculated current portofolio value: 820305.9335666
+Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 820305.9335666 which is -100%
 Calculated initial portofolio value: 601640247.0680322
-Calculated current portofolio value: 824684.2335950
-Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 824684.2335950 which is -100%
-Calculated initial portofolio value: 601640247.0680322
-Calculated current portofolio value: 824684.2335950
-Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 824684.2335950 which is -100%
-Calculated initial portofolio value: 601640247.0680322
-Calculated current portofolio value: 824671.7852452
-Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 824671.7852452 which is -100%
+Calculated current portofolio value: 820305.9335666
+Calculated the portfolio change percentage between initial value 601640247.0680322 and current portfolio value 820305.9335666 which is -100%

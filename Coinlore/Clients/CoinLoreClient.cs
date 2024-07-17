@@ -13,7 +13,7 @@ namespace Dynamo_Coinlore.Clients
         public async Task<TickersResponseModel?> GetCoinsInfo()
         {
             var client = _httpClientFactory.CreateClient("coinlore");
-            var response = await client.GetFromJsonAsync<TickersResponseModel>("/api/tickers/");
+            var response = await client.GetFromJsonAsync<TickersResponseModel>("/api/tickers/").ConfigureAwait(false);
          
             return response is null ? null : response;
         }
