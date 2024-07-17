@@ -1,0 +1,6 @@
+@Dynamo_Coinlore_HostAddress = http://localhost:5286
+
+GET {{Dynamo_Coinlore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
